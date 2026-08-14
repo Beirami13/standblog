@@ -5,4 +5,4 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     fathers_name = models.CharField(max_length=100)
     national_code = models.IntegerField()
-    image = models.ImageField(upload_to='profiles/images')
+    image = models.ImageField(upload_to='profiles/images', blank=True, null=True)
