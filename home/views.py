@@ -3,7 +3,7 @@ from blog.models import Post, Category
 
 def home(request):
     posts = Post.objects.all()
-    recent_posts = Post.objects.all()[:2]
+    recent_posts = posts[:2]
     categories = Category.objects.all()
 
     return render(request, 'home/index.html', {

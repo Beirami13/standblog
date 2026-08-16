@@ -25,8 +25,9 @@ def user_register(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
         password1 = request.POST.get('password')
-        password2 = request.POST.get('password')
-        if password1==password2:
+        password2 = request.POST.get('password2')
+        if password1 == password2:
             user = User.objects.create_user(username=username, email=email, password=password1)
             return redirect('home:home')
-        return render(request, 'account/register.html', {})
+        return render(request, 'account/register.html', {'error': 'different password'})
+    return render(request, 'account/register.html', {})
