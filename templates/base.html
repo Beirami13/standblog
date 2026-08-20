@@ -1,150 +1,442 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <meta name="description" content="">
     <meta name="author" content="TemplateMo">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap"
           rel="stylesheet">
 
-    <title>{% block title %} {% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
+
 
     <!-- Bootstrap core CSS -->
-    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
+          rel="stylesheet">
 
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="{% static 'css/fontawesome.css' %}">
-    <link rel="stylesheet" href="{% static 'css/templatemo-stand-blog.css' %}">
-    <link rel="stylesheet" href="{% static 'css/owl.css' %}">
+
+    <link rel="stylesheet"
+          href="{% static 'css/fontawesome.css' %}">
+
+    <link rel="stylesheet"
+          href="{% static 'css/templatemo-stand-blog.css' %}">
+
+    <link rel="stylesheet"
+          href="{% static 'css/owl.css' %}">
 
 </head>
 
+
 <body>
 
+
 <!-- ***** Preloader Start ***** -->
+
 <div id="preloader">
+
     <div class="jumper">
+
         <div></div>
         <div></div>
         <div></div>
     </div>
+
 </div>
+
 <!-- ***** Preloader End ***** -->
 
+
 <!-- Header -->
-<header class="">
+
+<header>
+
     <nav class="navbar navbar-expand-lg">
+
         <div class="container">
-            <a class="navbar-brand" href="index.html"><h2>Stand Blog<em>.</em></h2></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+
+
+            <!-- Logo -->
+
+            <a class="navbar-brand"
+               href="{% url 'home:home' %}">
+
+                <h2>
+                    Stand Blog<em>.</em>
+                </h2>
+
+            </a>
+
+
+            <!-- Mobile Menu Button -->
+
+            <button class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+
                 <span class="navbar-toggler-icon"></span>
+
             </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
+
+
+            <!-- Navbar -->
+
+            <div class="collapse navbar-collapse"
+                 id="navbarResponsive">
+
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="index.html">Home
-                            <span class="sr-only">(current)</span>
+
+
+                    <!-- Home -->
+
+                    <li class="nav-item
+                        {% if request.resolver_match.url_name == 'home' %}
+                            active
+                        {% endif %}">
+
+                        <a class="nav-link"
+                           href="{% url 'home:home' %}">
+
+                            Home
+
+                            <span class="sr-only">
+                                (current)
+                            </span>
+
                         </a>
+
                     </li>
+
+
+                    <!-- About Us -->
+
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">About Us</a>
+
+                        <a class="nav-link"
+                           href="about.html">
+
+                            About Us
+
+                        </a>
+
                     </li>
+
+
+                    <!-- All Posts -->
+
+                    <li class="nav-item
+                        {% if request.resolver_match.url_name == 'posts_list' %}
+                            active
+                        {% endif %}">
+
+                        <a class="nav-link"
+                           href="{% url 'blog:posts_list' %}">
+
+                            All Posts
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- Post Details -->
+
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'blog:posts_list'%}">All Posts</a>
+
+                        <a class="nav-link"
+                           href="post_details.html">
+
+                            Post Details
+
+                        </a>
+
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="post_details.html">Post Details</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact Us</a>
-                    </li>
+
+
+                    <!-- Contact / Messages -->
+
+                    {% if request.user.is_authenticated and request.user.is_staff %}
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               href="{% url 'blog:contact_messages' %}">
+
+                                Messages
+
+                            </a>
+
+                        </li>
+
+                    {% else %}
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               href="{% url 'blog:contact_us' %}">
+
+                                Contact Us
+
+                            </a>
+
+                        </li>
+
+                    {% endif %}
+
+
+                    <!-- User -->
+
                     <li class="nav-item d-flex align-items-center">
+
                         {% if request.user.is_authenticated %}
-                            <div class="btn-group ml-3" role="group">
-                                {% if user.profile.image %}
-                                    <img src="{{ user.profile.image.url }}" width="20px" height="20px" style="border-radius:100% ">
+
+                            <div class="btn-group ml-3"
+                                 role="group">
+
+
+                                <!-- اگر first_name داشته باشد -->
+                                <!-- به صفحه Edit Profile می رود -->
+
+                                {% if request.user.first_name %}
+
+                                    <a href="{% url 'account:edit' %}"
+                                       class="btn orange-user">
+
+                                        {% if request.user.profile.image %}
+
+                                            <img
+                                                src="{{ request.user.profile.image.url }}"
+                                                width="20"
+                                                height="20"
+                                                style="border-radius: 100%;">
+
+                                        {% else %}
+
+                                            <img
+                                                src="{% static 'images/profile.jpg' %}"
+                                                width="20"
+                                                height="20"
+                                                style="border-radius: 100%;">
+
+                                        {% endif %}
+
+                                        {{ request.user.username }}
+
+                                    </a>
+
+
                                 {% else %}
-                                    <img src="{% static 'images/profile.jpg' %}" width="20px" height="20px" style="border-radius:100% ">
+
+                                    <!--
+                                    فعلاً چون create_profile در urls.py
+                                    نداریم، لینک را غیرفعال گذاشتیم.
+                                    -->
+
+                                    <a href="#"
+                                       class="btn orange-user">
+
+                                        <img
+                                            src="{% static 'images/profile.jpg' %}"
+                                            width="20"
+                                            height="20"
+                                            style="border-radius: 100%;">
+
+                                        {{ request.user.username }}
+
+                                    </a>
+
                                 {% endif %}
-                                <span class="btn orange-user">
-                                    {{ request.user.username }}
-                                </span>
-                                <a href="{% url 'account:logout' %}" class="btn orange-outline-btn">
+
+
+                                <!-- Logout -->
+
+                                <a href="{% url 'account:logout' %}"
+                                   class="btn orange-outline-btn">
+
                                     Logout
+
                                 </a>
+
                             </div>
+
+
                         {% else %}
-                            <div class="btn-group ml-3" role="group">
-                                <a href="{% url 'account:login' %}" class="btn orange-btn">
+
+
+                            <!-- Login / Register -->
+
+                            <div class="btn-group ml-3"
+                                 role="group">
+
+                                <a href="{% url 'account:login' %}"
+                                   class="btn orange-btn">
+
                                     Login
+
                                 </a>
-                                <a href="{% url 'account:register' %}" class="btn orange-outline-btn">
+
+                                <a href="{% url 'account:register' %}"
+                                   class="btn orange-outline-btn">
+
                                     Register
+
                                 </a>
+
                             </div>
+
                         {% endif %}
+
                     </li>
+
                 </ul>
+
             </div>
+
         </div>
+
     </nav>
+
 </header>
 
+
+<!-- Page Content -->
+
 {% block content %}
+
 {% endblock %}
 
 
+<!-- Footer -->
 
 <footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <ul class="social-icons">
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">Twitter</a></li>
-                    <li><a href="#">Behance</a></li>
-                    <li><a href="#">Linkedin</a></li>
-                    <li><a href="#">Dribbble</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-12">
-                <div class="copyright-text">
-                    <p>Copyright 2020 Stand Blog Co.
 
-                        | Design: <a rel="nofollow" target="_parent">you can share your personal blogs</a></p>
-                </div>
+    <div class="container">
+
+        <div class="row">
+
+
+            <div class="col-lg-12">
+
+                <ul class="social-icons">
+
+                    <li>
+                        <a href="#">Facebook</a>
+                    </li>
+
+                    <li>
+                        <a href="#">Twitter</a>
+                    </li>
+
+                    <li>
+                        <a href="#">Behance</a>
+                    </li>
+
+                    <li>
+                        <a href="#">Linkedin</a>
+                    </li>
+
+                    <li>
+                        <a href="#">Dribbble</a>
+                    </li>
+
+                </ul>
+
             </div>
+
+
+            <div class="col-lg-12">
+
+                <div class="copyright-text">
+
+                    <p>
+
+                        Copyright 2020 Stand Blog Co.
+
+                        | Design:
+
+                        <a rel="nofollow"
+                           target="_parent">
+
+                            you can share your personal blogs
+
+                        </a>
+
+                    </p>
+
+                </div>
+
+            </div>
+
         </div>
+
     </div>
+
 </footer>
 
+
 <!-- Bootstrap core JavaScript -->
-<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
-<!-- Additional Scripts -->
-<script src="{% static 'js/custom.js' %}"></script>
-<script src="{% static 'js/owl.js' %}"></script>
-<script src="{% static 'js/slick.js' %}"></script>
-<script src="{% static 'js/isotope.js' %}"></script>
-<script src="{% static 'js/accordions.js' %}"></script>
-
-<script language="text/Javascript">
-    cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
-    function clearField(t) {                   //declaring the array outside of the
-        if (!cleared[t.id]) {                      // function makes it static and global
-            cleared[t.id] = 1;  // you could use true and false, but that's more typing
-            t.value = '';         // with more chance of typos
-            t.style.color = '#fff';
-        }
-    }
+<script src="{% static 'vendor/jquery/jquery.min.js' %}">
 </script>
 
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}">
+</script>
+
+
+<!-- Additional Scripts -->
+
+<script src="{% static 'js/custom.js' %}">
+</script>
+
+<script src="{% static 'js/owl.js' %}">
+</script>
+
+<script src="{% static 'js/slick.js' %}">
+</script>
+
+<script src="{% static 'js/isotope.js' %}">
+</script>
+
+<script src="{% static 'js/accordions.js' %}">
+</script>
+
+
+<script language="text/Javascript">
+
+    cleared[0] = cleared[1] = cleared[2] = 0;
+
+    function clearField(t) {
+
+        if (!cleared[t.id]) {
+
+            cleared[t.id] = 1;
+
+            t.value = '';
+
+            t.style.color = '#fff';
+
+        }
+
+    }
+
+</script>
+
+
 </body>
+
 </html>

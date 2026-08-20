@@ -1,0 +1,333 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Edit Profile</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" type="image/png"
+          href="{% static 'images/icons/favicon.ico' %}"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'fonts/iconic/css/material-design-iconic-font.min.css' %}">
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'vendor/animate/animate.css' %}">
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'vendor/animsition/css/animsition.min.css' %}">
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'vendor/select2/select2.min.css' %}">
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'vendor/daterangepicker/daterangepicker.css' %}">
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'css/util.css' %}">
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'css/main.css' %}">
+
+    <style>
+
+        .profile-image-box {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .profile-image {
+            width: 95px;
+            height: 95px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.8);
+            margin-bottom: 15px;
+        }
+
+        .default-profile {
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .default-profile i {
+            font-size: 45px;
+            color: white;
+        }
+
+        .image-label {
+            display: block;
+            color: white;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .image-input {
+            color: white;
+            font-size: 13px;
+            width: 100%;
+        }
+
+        .error-message {
+            color: #ffdddd;
+            font-size: 13px;
+            text-align: left;
+            margin: -12px 0 12px 10px;
+        }
+
+        .general-error {
+            background: rgba(255, 80, 80, 0.15);
+            border: 1px solid rgba(255, 150, 150, 0.4);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .back-link {
+            margin-top: 25px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="limiter">
+
+    <div class="container-login100"
+         style="background-image: url('{% static 'images/bg-01.jpg' %}');">
+
+        <div class="wrap-login100">
+
+            <form class="login100-form validate-form"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+
+                <!-- PROFILE ICON -->
+
+                <span class="login100-form-logo">
+
+                    <i class="zmdi zmdi-account"></i>
+
+                </span>
+
+
+                <!-- TITLE -->
+
+                <span class="login100-form-title p-b-34 p-t-27">
+
+                    Edit Profile
+
+                </span>
+
+
+                <!-- GENERAL ERRORS -->
+
+                {% if user_form.non_field_errors or profile_form.non_field_errors %}
+
+                    <div class="general-error">
+
+                        {% for error in user_form.non_field_errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+
+                        {% for error in profile_form.non_field_errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- FIRST NAME -->
+
+                <div class="wrap-input100 validate-input"
+                     data-validate="Enter first name">
+
+                    {{ user_form.first_name }}
+
+                    <span class="focus-input100"
+                          data-placeholder="&#xf207;"></span>
+
+                </div>
+
+                {% for error in user_form.first_name.errors %}
+
+                    <div class="error-message">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+
+                <!-- LAST NAME -->
+
+                <div class="wrap-input100 validate-input"
+                     data-validate="Enter last name">
+
+                    {{ user_form.last_name }}
+
+                    <span class="focus-input100"
+                          data-placeholder="&#xf207;"></span>
+
+                </div>
+
+                {% for error in user_form.last_name.errors %}
+
+                    <div class="error-message">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+
+                <!-- NATIONAL CODE -->
+
+                <div class="wrap-input100 validate-input"
+                     data-validate="Enter national code">
+
+                    {{ profile_form.national_code }}
+
+                    <span class="focus-input100"
+                          data-placeholder="&#xf2be;"></span>
+
+                </div>
+
+                {% for error in profile_form.national_code.errors %}
+
+                    <div class="error-message">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+
+                <!-- PROFILE IMAGE -->
+
+                <div class="profile-image-box">
+
+                    <label class="image-label">
+                        Change profile picture
+                    </label>
+                    {% if profile_form.instance.image %}
+
+                        <img
+                            src="{{ profile_form.instance.image.url }}"
+                            class="profile-image"
+                            alt="Profile">
+
+                    {% else %}
+
+                        <div class="default-profile">
+
+                            <i class="zmdi zmdi-account"></i>
+
+                        </div>
+
+                    {% endif %}
+
+                    {{ profile_form.image }}
+
+                </div>
+
+
+                {% for error in profile_form.image.errors %}
+
+                    <div class="error-message">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+
+                <!-- SAVE -->
+
+                <div class="container-login100-form-btn">
+
+                    <button
+                        type="submit"
+                        class="login100-form-btn">
+
+                        Save Changes
+
+                    </button>
+
+                </div>
+
+
+                <!-- BACK -->
+
+                <div class="text-center back-link">
+
+                    <a class="txt1"
+                       href="{% url 'home:home' %}">
+
+                        Back to Home
+
+                    </a>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="dropDownSelect1"></div>
+
+
+<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+
+<script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
+
+<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+
+<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+
+<script src="{% static 'vendor/daterangepicker/moment.min.js' %}"></script>
+
+<script src="{% static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
+
+<script src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
+
+<script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>

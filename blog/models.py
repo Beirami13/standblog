@@ -11,7 +11,7 @@ class Category(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
-    category = models.ManyToManyField(Category)
+    category = models.ManyToManyField(Category, related_name='posts')
     content = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -32,3 +32,21 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-pub_date', '-date']
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    context = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+    parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
+
+class ContactMessage(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.subject

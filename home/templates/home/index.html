@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load social_share %}
 
 {% block title %}
     home
@@ -93,8 +94,7 @@
                                                     <div class="col-6">
                                                         <ul class="post-share">
                                                             <li><i class="fa fa-share-alt"></i></li>
-                                                            <li><a href="#">Facebook</a>,</li>
-                                                            <li><a href="#"> Twitter</a></li>
+                                                            <li>{% post_to_whatsapp post.get_absolute_url "whatapp" %}</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -116,10 +116,19 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="sidebar-item search">
-                                    <form id="search_form" name="gs" method="GET" action="#">
-                                        <input type="text" name="q" class="searchText" placeholder="type to search..."
-                                               autocomplete="on">
-                                    </form>
+                                    <div class="sidebar-item search">
+                                        <form id="search_form" name="gs" method="GET" action="{% url 'blog:search' %}">
+                                            <input
+                                                    type="text"
+                                                    name="q"
+                                                    class="searchText"
+                                                    placeholder="type to search..."
+                                                    autocomplete="on"
+                                                    value="{{ request.GET.q|default:'' }}"
+                                                    onfocus="this.select();"
+                                            >
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-12">
@@ -149,7 +158,9 @@
                                     <div class="content">
                                         <ul>
                                             {% for category in categories %}
-                                                <li><a href="#">{{ category.name }}</a></li>
+                                                <li>
+                                                    <a href="{% url 'blog:category' category.pk %}">{{ category.name }}</a>
+                                                </li>
                                             {% endfor %}
                                         </ul>
                                     </div>
