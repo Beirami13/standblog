@@ -25,7 +25,7 @@
                                 <ul class="post-info">
                                     <li><a href="#">{{ post.author.username }}</a></li>
                                     <li><a href="#">{{ post.date }}</a></li>
-                                    <li><a href="#">72 Comments</a></li>
+                                    <li><a href="#">{{ post.comments.count }} comments </a></li>
                                 </ul>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                                 <div class="col-lg-12">
                                     <div class="blog-post">
                                         <div class="blog-thumb">
-                                            <<img src="{{ post.image.url }}" alt="">
+                                            <img src="{{ post.image.url }}" alt="">
                                         </div>
                                         <div class="down-content">
                                             <span>Lifestyle</span>
@@ -79,22 +79,31 @@
                                             <ul class="post-info">
                                                 <li><a href="#">{{ post.author.get_full_name }}</a></li>
                                                 <li><a href="#">{{ post.date }}</a></li>
-                                                <li><a href="#">12 Comments</a></li>
+                                                <li><a href="#">{{ post.comments.count }} comments </a></li>
                                             </ul>
-                                            <p>{{ post.content }}</p>
+                                            <p>{{ post.content|truncatewords:30 }}</p>
                                             <div class="post-options">
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <ul class="post-tags">
-                                                            <li><i class="fa fa-tags"></i></li>
-                                                            <li><a href="#">Beauty</a>,</li>
-                                                            <li><a href="#">Nature</a></li>
+                                                            <li>
+                                                                <a href="{% url 'blog:like_post' slug=post.slug pk=post.id %}">
+                                                                    {% if user.is_authenticated and post.id in liked_posts %}
+                                                                        <i style="font-size: 20px; color: red;"
+                                                                           class="fa-solid fa-heart"></i>
+                                                                    {% else %}
+                                                                        <i style="font-size: 20px;"
+                                                                           class="fa-regular fa-heart"></i>
+                                                                    {% endif %}
+                                                                </a>
+                                                                <span>{{ post.likes.count }}</span>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                     <div class="col-6">
                                                         <ul class="post-share">
                                                             <li><i class="fa fa-share-alt"></i></li>
-                                                            <li>{% post_to_whatsapp post.get_absolute_url "whatapp" %}</li>
+                                                            <li>{% post_to_whatsapp post.get_absolute_url "WhatsApp" %}</li>
                                                         </ul>
                                                     </div>
                                                 </div>

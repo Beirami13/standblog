@@ -5,6 +5,7 @@
 {% block title %}
     {{ post.title }}
 {% endblock %}
+
 {% block content %}
     <!-- Page Content -->
     <!-- Banner Starts Here -->
@@ -22,13 +23,12 @@
             </div>
         </section>
     </div>
-
     <!-- Banner Ends Here -->
-
 
     <section class="blog-posts grid-system">
         <div class="container">
             <div class="row">
+                <!-- ستون اصلی (چپ) -->
                 <div class="col-lg-8">
                     <div class="all-blog-posts">
                         <div class="row">
@@ -43,26 +43,42 @@
                                         <ul class="post-info">
                                             <li><a href="#">{{ post.author.get_full_name }}</a></li>
                                             <li><a href="#">{{ post.date }}</a></li>
-                                            <li><a href="#">10 Comments</a></li>
+                                            <li><a href="#">{{ post.comments.count }} comments </a></li>
                                         </ul>
                                         <p>{{ post.content }}</p>
                                         <div class="post-options">
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <ul class="post-share">
-                                                        <li><i class="fa fa-share-alt"></i></li>
-                                                        <li>{% post_to_whatsapp post.get_absolute_url "whatapp" %}</li>
-                                                    </ul>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <ul class="post-tags">
+                                                            <li>
+                                                                <a href="{% url 'blog:like_post' slug=post.slug pk=post.id %}">
+                                                                    {% if user.is_authenticated and post.id in liked_posts %}
+                                                                        <i style="font-size: 20px; color: red;"
+                                                                           class="fa-solid fa-heart"></i>
+                                                                    {% else %}
+                                                                        <i style="font-size: 20px;"
+                                                                           class="fa-regular fa-heart"></i>
+                                                                    {% endif %}
+                                                                </a>
+                                                                <span style="color: #333; font-weight: bold;">{{ post.likes.count }}</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <ul class="post-share">
+                                                            <li><i class="fa fa-share-alt"></i></li>
+                                                            <li>{% post_to_whatsapp post.get_absolute_url "WhatsApp" %}</li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="sidebar-item comments">
                                     <div class="sidebar-heading">
-                                        <h2>4 comments</h2>
+                                        <h2>{{ post.comments.count }} comments </h2>
                                     </div>
                                     <div class="content">
                                         <ul>
@@ -72,21 +88,16 @@
                                                         <div class="author-thumb">
                                                             <div class="author-thumb">
                                                                 {% if user.profile.image %}
-                                                                    <img src="{{ user.profile.image.url }}"
-                                                                         alt="">
+                                                                    <img src="{{ user.profile.image.url }}" alt="">
                                                                 {% else %}
-                                                                    <img src="{% static 'images/profile.jpg' %}"
-                                                                         alt="">
+                                                                    <img src="{% static 'images/profile.jpg' %}" alt="">
                                                                 {% endif %}
                                                             </div>
                                                         </div>
                                                         <div class="right-content">
-                                                            <h4>{{ comment.author.get_full_name }}<span>{{ comment.date }}</span>
-                                                            </h4>
+                                                            <h4>{{ comment.author.get_full_name }}<span>{{ comment.date }}</span></h4>
                                                             <p>{{ comment.context }}</p>
-                                                            <button onclick="set_value({{ comment.id }})" style="background: transparent; color: #6c757d;border: none;
-                                                                    padding: 5px 0; font-size: 13px; font-weight: 500;
-                                                                    cursor: pointer; display: block;margin-top: 5px;">
+                                                            <button onclick="set_value({{ comment.id }})" style="background: transparent; color: #6c757d;border: none; padding: 5px 0; font-size: 13px; font-weight: 500; cursor: pointer; display: block;margin-top: 5px;">
                                                                 Reply
                                                             </button>
                                                         </div>
@@ -95,16 +106,13 @@
                                                         <li class="replied">
                                                             <div class="author-thumb">
                                                                 {% if user.profile.image %}
-                                                                    <img src="{{ user.profile.image.url }}"
-                                                                         alt="">
+                                                                    <img src="{{ user.profile.image.url }}" alt="">
                                                                 {% else %}
-                                                                    <img src="{% static 'images/profile.jpg' %}"
-                                                                         alt="">
+                                                                    <img src="{% static 'images/profile.jpg' %}" alt="">
                                                                 {% endif %}
                                                             </div>
                                                             <div class="right-content">
-                                                                <h4>{{ reply.author.get_full_name }}<span>{{ reply.date }}</span>
-                                                                </h4>
+                                                                <h4>{{ reply.author.get_full_name }}<span>{{ reply.date }}</span></h4>
                                                                 <p>{{ reply.context }}</p>
                                                             </div>
                                                         </li>
@@ -128,16 +136,12 @@
                                                     <input type="hidden" id="parent_id" name="parent_id" value="">
                                                     <div class="col-lg-12">
                                                         <fieldset>
-                                                            <textarea name="context" rows="6" id="context"
-                                                                      placeholder="Type your comment"
-                                                                      required=""></textarea>
+                                                            <textarea name="context" rows="6" id="context" placeholder="Type your comment" required=""></textarea>
                                                         </fieldset>
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <fieldset>
-                                                            <button type="submit" id="form-submit" class="main-button">
-                                                                Submit
-                                                            </button>
+                                                            <button type="submit" id="form-submit" class="main-button">Submit</button>
                                                         </fieldset>
                                                     </div>
                                                 </div>
@@ -155,8 +159,7 @@
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div style="text-align: center; padding: 20px;">
-                                                        <a href="{% url 'account:login' %}" class="main-button"
-                                                           style="display: inline-block; padding: 12px 30px; background: #00994d; color: #fff; border-radius: 5px; text-decoration: none; font-weight: bold;">
+                                                        <a href="{% url 'account:login' %}" class="main-button" style="display: inline-block; padding: 12px 30px; background: #00994d; color: #fff; border-radius: 5px; text-decoration: none; font-weight: bold;">
                                                             Login to Comment
                                                         </a>
                                                     </div>
@@ -169,14 +172,14 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-4">
                     <div class="sidebar">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="sidebar-item search">
                                     <form id="search_form" name="gs" method="GET" action="#">
-                                        <input type="text" name="q" class="searchText" placeholder="type to search..."
-                                               autocomplete="on">
+                                        <input type="text" name="q" class="searchText" placeholder="type to search..." autocomplete="on">
                                     </form>
                                 </div>
                             </div>

@@ -1,12 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
-from blog.models import Post, Category, Comment, ContactMessage
+from blog.models import Post, Category, Comment, ContactMessage, Like
 from .forms import ContactUsForm
+from django.contrib.admin.views.decorators import staff_member_required
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
     recent_posts = Post.objects.all().order_by('-date')[:3]
     categories = Category.objects.all()
+
+    if request.user.is_authenticated:
+        liked_posts = Like.objects.filter(user=request.user).values_list('post_id', flat=True)
+    else:
+        liked_posts = []
 
     if request.method == "POST":
         context = request.POST.get('context')
@@ -24,8 +30,10 @@ def post_detail(request, slug):
         "post": post,
         "recent_posts": recent_posts,
         "categories": categories,
+        "liked_posts": liked_posts,
     }
     return render(request, "blog/post_details.html", contexts)
+
 
 def posts_list(request):
     posts = Post.objects.all()
@@ -76,9 +84,6 @@ def contact_us(request):
 
     return render(request, 'blog/contact.html', {'form': form})
 
-from django.contrib.admin.views.decorators import staff_member_required
-
-
 @staff_member_required
 def contact_messages(request):
     messages = ContactMessage.objects.all().order_by('-created_at')
@@ -88,3 +93,15 @@ def contact_messages(request):
         'blog/contact_messages.html',
         {'messages': messages}
     )
+
+
+def LikeView(request, slug, pk):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, slug=slug, id=pk)
+        like_obj = Like.objects.filter(post=post, user=request.user)
+        if like_obj.exists():
+            like_obj.delete()
+        else:
+            Like.objects.create(post=post, user=request.user)
+
+    return redirect('blog:post_detail', slug=slug)

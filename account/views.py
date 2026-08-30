@@ -45,7 +45,7 @@ def edit_profile(request):
         profile = user.profile
     except Profile.DoesNotExist:
         return redirect('account:create_profile')
-    
+
     if request.method == 'POST':
         user_form = UserEditForm(request.POST, instance=user)
         profile_form = ProfileEditForm(request.POST,request.FILES,instance=profile)
