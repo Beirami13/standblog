@@ -11,4 +11,6 @@ urlpatterns = [
     path('contact/', views.contact_us, name='contact_us'),
     path('contact-messages/',views.contact_messages,name='contact_messages'),
     path('like/<slug:slug>/<int:pk>', views.LikeView, name='like_post'),
+    path('about/', views.about, name='about'),
+    path( 'add-post/', views.add_post, name='add_post' ),
 ]

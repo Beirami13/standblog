@@ -77,6 +77,14 @@
 
             </a>
 
+            <a href="{% url 'blog:add_post' %}"
+               class="btn orange-btn ml-3">
+
+                <i class="fa fa-plus"></i>
+                Add Post
+
+            </a>
+
 
             <!-- Mobile Menu Button -->
 
@@ -127,7 +135,7 @@
                     <li class="nav-item">
 
                         <a class="nav-link"
-                           href="about.html">
+                           href="{% url 'blog:about' %}">
 
                             About Us
 
@@ -151,21 +159,6 @@
                         </a>
 
                     </li>
-
-
-                    <!-- Post Details -->
-
-                    <li class="nav-item">
-
-                        <a class="nav-link"
-                           href="post_details.html">
-
-                            Post Details
-
-                        </a>
-
-                    </li>
-
 
                     <!-- Contact / Messages -->
 
@@ -219,18 +212,18 @@
                                         {% if request.user.profile.image %}
 
                                             <img
-                                                src="{{ request.user.profile.image.url }}"
-                                                width="20"
-                                                height="20"
-                                                style="border-radius: 100%;">
+                                                    src="{{ request.user.profile.image.url }}"
+                                                    width="20"
+                                                    height="20"
+                                                    style="border-radius: 100%;">
 
                                         {% else %}
 
                                             <img
-                                                src="{% static 'images/profile.jpg' %}"
-                                                width="20"
-                                                height="20"
-                                                style="border-radius: 100%;">
+                                                    src="{% static 'images/profile.jpg' %}"
+                                                    width="20"
+                                                    height="20"
+                                                    style="border-radius: 100%;">
 
                                         {% endif %}
 
@@ -250,10 +243,10 @@
                                        class="btn orange-user">
 
                                         <img
-                                            src="{% static 'images/profile.jpg' %}"
-                                            width="20"
-                                            height="20"
-                                            style="border-radius: 100%;">
+                                                src="{% static 'images/profile.jpg' %}"
+                                                width="20"
+                                                height="20"
+                                                style="border-radius: 100%;">
 
                                         {{ request.user.username }}
 

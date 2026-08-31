@@ -46,9 +46,6 @@ class RegistrationForm(forms.Form):
         return cleaned_data
 
 
-from django import forms
-
-
 class CreateProfileForm(forms.Form):
     first_name = forms.CharField(max_length=150,widget=forms.TextInput(attrs={'class': 'input100','placeholder': 'First Name',}))
     last_name = forms.CharField(max_length=150,widget=forms.TextInput(attrs={'class': 'input100','placeholder': 'Last Name',}))
