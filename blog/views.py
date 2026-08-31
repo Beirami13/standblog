@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from blog.models import Post, Category, Comment, ContactMessage, Like
@@ -96,12 +97,21 @@ def contact_messages(request):
 
 
 def LikeView(request, slug, pk):
-    if request.user.is_authenticated:
+        if not request.user.is_authenticated:
+            return JsonResponse({
+                'liked': False,
+                'count': 0,
+            })
         post = get_object_or_404(Post, slug=slug, id=pk)
         like_obj = Like.objects.filter(post=post, user=request.user)
         if like_obj.exists():
             like_obj.delete()
+            liked = False
         else:
             Like.objects.create(post=post, user=request.user)
+            liked = True
 
-    return redirect('blog:post_detail', slug=slug)
+        return JsonResponse({
+            'liked': liked,
+            'count': post.likes.count(),
+        })

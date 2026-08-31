@@ -87,7 +87,10 @@
                                                     <div class="col-6">
                                                         <ul class="post-tags">
                                                             <li>
-                                                                <a href="{% url 'blog:like_post' slug=post.slug pk=post.id %}">
+                                                                <button class="like-btn"
+                                                                        data-url="{% url 'blog:like_post' slug=post.slug pk=post.id %}"
+                                                                        style="border: none; background: none; cursor: pointer;">
+
                                                                     {% if user.is_authenticated and post.id in liked_posts %}
                                                                         <i style="font-size: 20px; color: red;"
                                                                            class="fa-solid fa-heart"></i>
@@ -95,8 +98,10 @@
                                                                         <i style="font-size: 20px;"
                                                                            class="fa-regular fa-heart"></i>
                                                                     {% endif %}
-                                                                </a>
-                                                                <span>{{ post.likes.count }}</span>
+
+                                                                </button>
+
+                                                                <span class="like-count">{{ post.likes.count }}</span>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -199,5 +204,40 @@
             </div>
         </div>
     </section>
+
+    <script>
+        document.querySelectorAll('.like-btn').forEach(button => {
+
+            button.addEventListener('click', function () {
+
+                fetch(this.dataset.url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+
+                        const icon = this.querySelector('i');
+                        const count = this.parentElement.querySelector('.like-count');
+
+                        if (data.liked) {
+                            icon.classList.remove('fa-regular');
+                            icon.classList.add('fa-solid');
+                            icon.style.color = 'red';
+                        } else {
+                            icon.classList.remove('fa-solid');
+                            icon.classList.add('fa-regular');
+                            icon.style.color = '';
+                        }
+
+                        count.textContent = data.count;
+                    });
+
+            });
+
+        });
+    </script>
 
 {% endblock %}
