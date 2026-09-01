@@ -1,6 +1,8 @@
 from django.contrib.auth.decorators import login_required
+
+from blog.models import Post
 from .forms import LoginForm, RegistrationForm, UserEditForm, ProfileEditForm, CreateProfileForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import  login, logout
 from django.contrib.auth.models import User
 from .models import Profile
@@ -84,3 +86,4 @@ def create_profile(request):
         form = CreateProfileForm()
 
     return render(request,'account/create_profile.html',{'form': form})
+

@@ -143,3 +143,15 @@ def add_post(request):
     )
   else:
     return redirect('account:login')
+
+@login_required
+def delete_post(request, slug):
+
+    post = get_object_or_404(Post, slug=slug)
+    if request.user != post.author:
+        return redirect(post.get_absolute_url())
+    if request.method == 'POST':
+        post.delete()
+        return redirect('blog:posts_list')
+
+    return redirect(post.get_absolute_url())
