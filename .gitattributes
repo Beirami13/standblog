@@ -4,3 +4,4 @@ statics/** linguist-vendored
 *.css linguist-vendored
 *.js linguist-vendored
 *.html linguist-vendored
+*.less linguist-vendored
