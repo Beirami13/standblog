@@ -19,30 +19,41 @@ A blog platform built with Django. Users can register, create profiles, publish 
 
 ## Screenshots
 
-**Home page**
-![Home page1](screenshots/Home.png)
-![Home page1](screenshots/Home (2).png)
+### Home Page
+![Home Page](screenshots/Home.png)
+![Home Page - Additional View](screenshots/Home%20(2).png)
 
-**Registeratyion**
-![Categories menu](screenshots/register.png)
+### User Authentication
+**Registration**
+
+![Registration](screenshots/register.png)
 
 **Login**
-![Products list](screenshots/login.png)
 
-**Creat profile**
-![Product detail](screenshots/creatProfile.png)
+![Login](screenshots/login.png)
 
-**Add post**
-![Shopping cart](screenshots/addPost.png)
+### User Profile
+**Create Profile**
 
-**All post**
-![Shopping cart](screenshots/allPost.png)
+![Create Profile](screenshots/creatProfile.png)
 
-**Contactus**
-![Shopping cart](screenshots/contactUs.png)
+### Blog Posts
+**Add Post**
 
-**Aboutus**
-![Shopping cart](screenshots/aboutUs.png)
+![Add Post](screenshots/addPost.png)
+
+**All Posts**
+
+![All Posts](screenshots/allPost.png)
+
+### Other Pages
+**Contact Us**
+
+![Contact Us](screenshots/contactUs.png)
+
+**About Us**
+
+![About Us](screenshots/aboutUs.png)
 
 ## Tech stack
 
