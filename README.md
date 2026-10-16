@@ -17,6 +17,33 @@ A blog platform built with Django. Users can register, create profiles, publish 
 - Social share buttons on each post
 - Old post images are deleted automatically when a post's image is replaced or the post is removed
 
+## Screenshots
+
+**Home page**
+![Home page1](screenshots/Home.png)
+![Home page1](screenshots/Home (2).png)
+
+**Registeratyion**
+![Categories menu](screenshots/register.png)
+
+**Login**
+![Products list](screenshots/login.png)
+
+**Creat profile**
+![Product detail](screenshots/creatProfile.png)
+
+**Add post**
+![Shopping cart](screenshots/addPost.png)
+
+**All post**
+![Shopping cart](screenshots/allPost.png)
+
+**Contactus**
+![Shopping cart](screenshots/contactUs.png)
+
+**Aboutus**
+![Shopping cart](screenshots/aboutUs.png)
+
 ## Tech stack
 
 - Python, Django 6
