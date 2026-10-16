@@ -1,6 +1,6 @@
+statics/** linguist-vendored
 
-*.js   linguist-detectable=true
-*.css  linguist-detectable=true
-*.html linguist-detectable=true
-*.scss linguist-detectable=true
-*.less linguist-detectable=true
+*.scss linguist-vendored
+*.css linguist-vendored
+*.js linguist-vendored
+*.html linguist-vendored
