@@ -44,7 +44,7 @@ A blog platform built with Django. Users can register, create profiles, publish 
 
 **All Posts**
 
-![All Posts](screenshots/allPost.png)
+![All Posts](screenshots/allPosts.png)
 
 ### Other Pages
 **Contact Us**
@@ -98,8 +98,6 @@ The site will be available at `http://127.0.0.1:8000`.
 This repo currently ships with the default `SECRET_KEY` Django generates on `startproject` and `DEBUG = True`. That's fine for running it locally, but before deploying anywhere public, move the secret key and debug flag out of `settings.py` and into environment variables.
 
 ## What's next
-
-## What's Next
 
 - [ ] **Improve Security:** Review `settings.py` and configure `SECRET_KEY` to be read from an environment variable. Set `DEBUG = False` in production and configure the required production settings.
 
