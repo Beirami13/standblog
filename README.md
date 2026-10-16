@@ -99,5 +99,15 @@ This repo currently ships with the default `SECRET_KEY` Django generates on `sta
 
 ## What's next
 
-<!-- e.g. tests, deployment, features you're still planning -->
+## What's Next
+
+- [ ] **Improve Security:** Review `settings.py` and configure `SECRET_KEY` to be read from an environment variable. Set `DEBUG = False` in production and configure the required production settings.
+
+- [ ] **Add Automated Tests:** Write tests for user registration, login, post creation, and access permissions to verify that users can only perform actions they're authorized to do.
+
+- [ ] **Document Test Execution:** Add instructions for running the automated tests. For Django's built-in test runner, use:
+
+  ```bash
+  python manage.py test
+  ```
 
